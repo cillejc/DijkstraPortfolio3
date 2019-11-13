@@ -66,7 +66,7 @@ public class GraphTests {
         final Vertex fire = mygraph2.addvertex("4");
         final Vertex fem = mygraph2.addvertex("5");
         final Vertex seks = mygraph2.addvertex("6");
-        final Vertex syv =mygraph2.addvertex("7");
+        final Vertex syv = mygraph2.addvertex("7");
         final Vertex otte = mygraph2.addvertex("8");
         final Vertex ni = mygraph2.addvertex("9");
         final Vertex ti = mygraph2.addvertex("10");
