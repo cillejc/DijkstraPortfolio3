@@ -6,10 +6,9 @@ import java.util.Map;
 public class GraphTests {
 
     public static void main(String[] args) {
-        // Create graph
+        {// Create graph
         GraphTests TestGraph= new GraphTests();
         Graph g = TestGraph.MakeSmallGraph();
-        Graph b = TestGraph.MakeBigGraph();
         Vertex source = g.getvertex("A");
         Vertex zink = g.getvertex("F");
         Pair<Integer, Map<Vertex, Vertex>> results=g.ShortestDistance(source, zink);
@@ -24,10 +23,33 @@ public class GraphTests {
         for(Vertex v : Path)
         {
             System.out.print( v.Name);
+
             if (v!=zink)
                 System.out.print("->");
         }
+            System.out.println();
+        }
 
+        {
+            GraphTests TestGraph = new GraphTests();
+            Graph g = TestGraph.MakeBigGraph();
+            Vertex source = g.getvertex("10");
+            Vertex zink = g.getvertex("6");
+            Pair<Integer, Map<Vertex, Vertex>> results = g.ShortestDistance(source, zink);
+            Vertex current = zink;
+            ArrayList<Vertex> Path = new ArrayList<>();
+            Path.add(zink);
+            while ((current != source) && (results.getValue().get(current) != null)) {
+                current = results.getValue().get(current);
+                Path.add(0, current);
+            }
+            for (Vertex v : Path) {
+                System.out.print(v.Name);
+
+                if (v != zink)
+                    System.out.print("->");
+            }
+        }
 
 
     }

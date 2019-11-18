@@ -30,49 +30,53 @@ public class Graph {
     }
 
     public Pair<Integer, Map<Vertex, Vertex>> ShortestDistance(Vertex source, Vertex zink) {
-        Map<Vertex, Vertex> PredecessorMap = new HashMap<>();
         Map<Vertex, Integer> DistanceMap = new HashMap<>();
+        Map<Vertex, Vertex> PredecessorMap = new HashMap<>();
+        Map<Vertex, Boolean> HandledMap = new HashMap<>();
+        //Handled?
         Vertex current; //current vertex - placeholder
         ArrayList<Edge> EdgeListPlaceholder; // edgelist placeholder
         // initialize arrays
-        for (Vertex v : Vertices) {
+        for (Vertex v : Vertices) { //her kigger vi på alle vertices
             DistanceMap.put(v, 10000); //lav en infinity værdi
-            PredecessorMap.put(v, null);
+            PredecessorMap.put(v, null); //predecossormap sættes til null
+            HandledMap.put(v,false);
         }
-        DistanceMap.put(source, 0); // her sættes start edge til 0 i listen
+        DistanceMap.replace(source, 0); // her sættes start edge til 0 i listen
 
         //implement Dijkstra
-        for (int i = 0; i < DistanceMap.size(); i++) {
-            current = getmin(DistanceMap); // her sættes current til den node vi er ved at kigge på
+
+        for (int count = 0; count <Vertices.size() && getmin(DistanceMap,HandledMap)!=null; count++) {
+            current = getmin(DistanceMap,HandledMap); // her sættes current til den node vi er ved at kigge på
             EdgeListPlaceholder = current.OutEdges; //her gives EdgeList OutEdges værdi
-            for (int j = 0; j < EdgeListPlaceholder.size(); j++) { //her skal tilføjes
+            for(Edge e : EdgeListPlaceholder ){
 
-                /*
-                if(shortestdistance[a]+matrixgraph[a][i]<shortestdistance[i])
-                    {
-                        shortestdistance[i]=shortestdistance[a]+matrixgraph[a][i];
-                        predecessor[i]=a;
-                    }
-                 */
-
+                if (DistanceMap.get(current) + e.distance < DistanceMap.get(e.getTovertex())) {
+                    DistanceMap.replace(e.getTovertex(),DistanceMap.get(current)+ e.distance);
+                    PredecessorMap.replace(e.getTovertex(),current);
+                }
             }
+
+
+         HandledMap.replace(current,true);
         }
 
-
-        return (new Pair<Integer, Map<Vertex, Vertex>>(DistanceMap.get(zink), PredecessorMap)); //zink er destination
+        Pair<Integer, Map<Vertex, Vertex>> result= new Pair<>(DistanceMap.get(zink), PredecessorMap);
+        return result; //zink er destination
     }
 
-    public Vertex getmin(Map<Vertex, Integer> qmap) {
+    public Vertex getmin(Map<Vertex, Integer> qmap, Map<Vertex, Boolean> done) {
 
-        Vertex vertex;
+        Vertex vertex=null;
         int value = 10000;
+
         Collection entryset = qmap.entrySet();
 
         Iterator<Map.Entry<Vertex, Integer>> it = entryset.iterator();
 
         while (it.hasNext()) {
             Map.Entry<Vertex, Integer> e = it.next(); //key er første element, value er andet
-            if (e.getValue() < value) {
+            if (e.getValue() < value && !done.get(e.getKey())) {
                 vertex = e.getKey();
                 value = e.getValue();
             }
@@ -98,6 +102,21 @@ class Vertex {
     public ArrayList<Edge> getOutEdges() {
         return OutEdges;
     }
+    /*@Override
+    public boolean equals(Object o){
+        if (this==o){
+            return true;
+        }
+        if(o==null)  {
+            return false;
+        }
+
+        if (getClass() != o.getClass()){
+            return false;
+        }
+        Vertex v = (Vertex) o;
+        return Objects.equals(Name,v.Name);
+    }        */
 }
 
 class Edge {
@@ -115,6 +134,6 @@ class Edge {
         tovertex = to;
         fromvertex.addOutEdge(this);
         //If not directional
-        tovertex.addOutEdge(this);
+        //tovertex.addOutEdge(this);
     }
 }
