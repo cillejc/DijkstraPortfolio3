@@ -29,14 +29,15 @@ public class Graph {
         newedge.time = tim;
     }
 
-    public enum weight{TIME, DISTANCE;}
+    public enum weight {TIME, DISTANCE;}
+
     public Pair<Integer, Map<Vertex, Vertex>> GetShortestDistance(Vertex source, Vertex zink) {
         return ShortestDistance(source, zink, weight.DISTANCE);
     }
+
     public Pair<Integer, Map<Vertex, Vertex>> GetShortestTime(Vertex source, Vertex zink) {
         return ShortestDistance(source, zink, weight.TIME);
     }
-
 
     public Pair<Integer, Map<Vertex, Vertex>> ShortestDistance(Vertex source, Vertex zink, weight w) {
         Map<Vertex, Integer> DistanceMap = new HashMap<>();
@@ -55,35 +56,29 @@ public class Graph {
         DistanceMap.replace(source, 0); // her sættes start vertex til 0 i listen
 
         //implement Dijkstra
-
-
         for (int count = 0; count < Vertices.size(); count++) {
             if (getmin(DistanceMap, HandledMap) != null) {
                 current = getmin(DistanceMap, HandledMap); // her sættes current til den vertex vi er ved at kigge på
                 EdgeListPlaceholder = current.OutEdges; //EdgeListPlaceholder viser current vertex' edges
 
-                    for (Edge e : EdgeListPlaceholder) {
+                for (Edge e : EdgeListPlaceholder) {
 
-                        if(w==weight.DISTANCE){
-                            cweight=e.distance;
-                        }else{
-                            cweight=e.time;
-                        }
-
-                        if (DistanceMap.get(current) + cweight < DistanceMap.get(e.getTovertex())) {//hvis ny distance er mindre end korteste distance
-                            DistanceMap.replace(e.getTovertex(), DistanceMap.get(current) + cweight);
-                            PredecessorMap.replace(e.getTovertex(), current);
-                        }
-
+                    if (w == weight.DISTANCE) {
+                        cweight = e.distance;
+                    } else {
+                        cweight = e.time;
                     }
-                    HandledMap.replace(current, true);
+
+                    if (DistanceMap.get(current) + cweight < DistanceMap.get(e.getTovertex())) {//hvis ny distance er mindre end korteste distance
+                        DistanceMap.replace(e.getTovertex(), DistanceMap.get(current) + cweight);
+                        PredecessorMap.replace(e.getTovertex(), current);
+                    }
                 }
-
+                HandledMap.replace(current, true);
             }
-
-        Pair<Integer, Map<Vertex,Vertex>> result = new Pair<>(DistanceMap.get(zink), PredecessorMap);
+        }
+        Pair<Integer, Map<Vertex, Vertex>> result = new Pair<>(DistanceMap.get(zink), PredecessorMap);
         return result;
-
     }
 
     public Vertex getmin(Map<Vertex, Integer> qmap, Map<Vertex, Boolean> done) {
@@ -102,11 +97,9 @@ public class Graph {
                 value = e.getValue();
             }
         }
-
         return vertex;
     }
 }
-
 
 class Vertex {
     public String Name;
@@ -123,7 +116,6 @@ class Vertex {
     public ArrayList<Edge> getOutEdges() {
         return OutEdges;
     }
-
 }
 
 class Edge {

@@ -30,20 +30,19 @@ public class GraphTests {
         Vertex source = g.getvertex("A");
         Vertex zink = g.getvertex("F");
         Pair<Integer, Map<Vertex, Vertex>> results = g.GetShortestDistance(source, zink);
-        System.out.println("Her printes den korteste rute, for den lille graf ");
+        System.out.println("Her printes den korteste rute, for den lille graf:");
         prettyPrint(source, zink, results);
         results = g.GetShortestTime(source, zink);
-        System.out.println("\nHer printes den hurtigste, for den lille graf ");
+        System.out.println("\nHer printes den hurtigste rute, for den lille graf:");
         prettyPrint(source, zink, results);
 
         g = TestGraph.MakeBigGraph();
         source = g.getvertex("10");
         zink = g.getvertex("6");
         results = g.GetShortestDistance(source, zink);
-        System.out.println("\nHer printes den korteste rute, for den store graf ");
+        System.out.println("\nHer printes den korteste rute, for den store graf:");
         prettyPrint(source, zink, results);
     }
-
 
 
     public Graph MakeSmallGraph()
@@ -67,9 +66,7 @@ public class GraphTests {
         mygraph.newedge(D,F, 2,7);
         mygraph.newedge(E,F, 3,6);
 
-
         return mygraph;
-
     }
 
     public Graph MakeBigGraph() //Denne graf er lavet ud fra Portefølje 3 dokumentet
@@ -106,8 +103,6 @@ public class GraphTests {
         mygraph2.newedge(ni,ti,10,0);
         mygraph2.newedge(ti,to,5,0);
         mygraph2.newedge(ti,tre,15,0);
-
-
 
         return mygraph2;
     }
