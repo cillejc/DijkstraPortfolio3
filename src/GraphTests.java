@@ -6,7 +6,8 @@ import java.util.Map;
 public class GraphTests {
 
     public static void main(String[] args) {
-        {// Create graph
+        {//her starter en tuborg klamme, så variabel navne kan bruges igen.
+            // Create graph
         GraphTests TestGraph= new GraphTests();
         Graph g = TestGraph.MakeSmallGraph();
         Vertex source = g.getvertex("A");
@@ -30,7 +31,7 @@ public class GraphTests {
             System.out.println();
         }
 
-        {
+        { //her starter en tuborg klamme, så variabel navne kan bruges igen.
             GraphTests TestGraph = new GraphTests();
             Graph g = TestGraph.MakeBigGraph();
             Vertex source = g.getvertex("10");
@@ -79,7 +80,7 @@ public class GraphTests {
 
     }
 
-    public Graph MakeBigGraph()
+    public Graph MakeBigGraph() //Denne graf er lavet ud fra Portefølje 3 dokumentet
     {
         Graph mygraph2 = new Graph();
         final Vertex en=mygraph2.addvertex("1");

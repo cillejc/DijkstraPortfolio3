@@ -32,42 +32,40 @@ public class Graph {
     public Pair<Integer, Map<Vertex, Vertex>> ShortestDistance(Vertex source, Vertex zink) {
         Map<Vertex, Integer> DistanceMap = new HashMap<>();
         Map<Vertex, Vertex> PredecessorMap = new HashMap<>();
-        Map<Vertex, Boolean> HandledMap = new HashMap<>();
-        //Handled?
+        Map<Vertex, Boolean> HandledMap = new HashMap<>(); // Denne map bruges til at holde styr på hvilke vertices vi har kigget på
         Vertex current; //current vertex - placeholder
         ArrayList<Edge> EdgeListPlaceholder; // edgelist placeholder
         // initialize arrays
-        for (Vertex v : Vertices) { //her kigger vi på alle vertices
-            DistanceMap.put(v, 10000); //lav en infinity værdi
+        for (Vertex v : Vertices) { //her kigger vi på alle vertices. Det er et for each loop
+            DistanceMap.put(v, 10000); //sætter værdien for Vertex v til 10000
             PredecessorMap.put(v, null); //predecossormap sættes til null
-            HandledMap.put(v,false);
+            HandledMap.put(v, false);
         }
-        DistanceMap.replace(source, 0); // her sættes start edge til 0 i listen
+        DistanceMap.replace(source, 0); // her sættes start vertex til 0 i listen
 
         //implement Dijkstra
 
-        for (int count = 0; count <Vertices.size() && getmin(DistanceMap,HandledMap)!=null; count++) {
-            current = getmin(DistanceMap,HandledMap); // her sættes current til den node vi er ved at kigge på
-            EdgeListPlaceholder = current.OutEdges; //her gives EdgeList OutEdges værdi
-            for(Edge e : EdgeListPlaceholder ){
-
-                if (DistanceMap.get(current) + e.distance < DistanceMap.get(e.getTovertex())) {
-                    DistanceMap.replace(e.getTovertex(),DistanceMap.get(current)+ e.distance);
-                    PredecessorMap.replace(e.getTovertex(),current);
+        for (int count = 0; count < Vertices.size(); count++) {
+            if (getmin(DistanceMap, HandledMap) != null) {
+                current = getmin(DistanceMap, HandledMap); // her sættes current til den vertex vi er ved at kigge på
+                EdgeListPlaceholder = current.OutEdges; //EdgeListPlaceholder viser current vertex' edges
+                for (Edge e : EdgeListPlaceholder) {
+                    if (DistanceMap.get(current) + e.distance < DistanceMap.get(e.getTovertex())) {//hvis ny distance er mindre end korteste distance
+                        DistanceMap.replace(e.getTovertex(), DistanceMap.get(current) + e.distance);
+                        PredecessorMap.replace(e.getTovertex(), current);
+                    }
                 }
+                HandledMap.replace(current, true);
             }
-
-
-         HandledMap.replace(current,true);
         }
 
-        Pair<Integer, Map<Vertex, Vertex>> result= new Pair<>(DistanceMap.get(zink), PredecessorMap);
-        return result; //zink er destination
+        Pair<Integer, Map<Vertex, Vertex>> result = new Pair<>(DistanceMap.get(zink), PredecessorMap);
+        return result;
     }
 
     public Vertex getmin(Map<Vertex, Integer> qmap, Map<Vertex, Boolean> done) {
 
-        Vertex vertex=null;
+        Vertex vertex = null;
         int value = 10000;
 
         Collection entryset = qmap.entrySet();
@@ -102,21 +100,7 @@ class Vertex {
     public ArrayList<Edge> getOutEdges() {
         return OutEdges;
     }
-    /*@Override
-    public boolean equals(Object o){
-        if (this==o){
-            return true;
-        }
-        if(o==null)  {
-            return false;
-        }
 
-        if (getClass() != o.getClass()){
-            return false;
-        }
-        Vertex v = (Vertex) o;
-        return Objects.equals(Name,v.Name);
-    }        */
 }
 
 class Edge {
