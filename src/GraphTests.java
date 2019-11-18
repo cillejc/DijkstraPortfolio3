@@ -5,55 +5,47 @@ import java.util.Map;
 
 public class GraphTests {
 
+    public static void prettyPrint(Vertex source, Vertex zink, Pair<Integer, Map<Vertex, Vertex>> p)
+    {
+        Vertex current = zink;
+        ArrayList<Vertex> Path = new ArrayList<>();
+        Path.add(zink);
+        while ((current != source) && (p.getValue().get(current) != null)) {
+            current = p.getValue().get(current);
+            Path.add(0, current);
+        }
+        for (Vertex v : Path) {
+            System.out.print(v.Name);
+
+            if (v != zink)
+                System.out.print("->");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        {//her starter en tuborg klamme, så variabel navne kan bruges igen.
-            // Create graph
-        GraphTests TestGraph= new GraphTests();
+        // Create graph
+        GraphTests TestGraph = new GraphTests();
         Graph g = TestGraph.MakeSmallGraph();
         Vertex source = g.getvertex("A");
         Vertex zink = g.getvertex("F");
-        Pair<Integer, Map<Vertex, Vertex>> results=g.ShortestDistance(source, zink);
-        Vertex current =zink;
-        ArrayList<Vertex> Path= new ArrayList<>();
-        Path.add(zink);
-        while ((current != source) && (results.getValue().get(current)!=null))
-        {
-            current=results.getValue().get(current);
-            Path.add(0,current);
-        }
-        for(Vertex v : Path)
-        {
-            System.out.print( v.Name);
+        Pair<Integer, Map<Vertex, Vertex>> results = g.GetShortestDistance(source, zink);
+        System.out.println("Her printes den korteste rute, for den lille graf ");
+        prettyPrint(source, zink, results);
+        results = g.GetShortestTime(source, zink);
+        System.out.println("\nHer printes den hurtigste, for den lille graf ");
+        prettyPrint(source, zink, results);
 
-            if (v!=zink)
-                System.out.print("->");
-        }
-            System.out.println();
-        }
-
-        { //her starter en tuborg klamme, så variabel navne kan bruges igen.
-            GraphTests TestGraph = new GraphTests();
-            Graph g = TestGraph.MakeBigGraph();
-            Vertex source = g.getvertex("10");
-            Vertex zink = g.getvertex("6");
-            Pair<Integer, Map<Vertex, Vertex>> results = g.ShortestDistance(source, zink);
-            Vertex current = zink;
-            ArrayList<Vertex> Path = new ArrayList<>();
-            Path.add(zink);
-            while ((current != source) && (results.getValue().get(current) != null)) {
-                current = results.getValue().get(current);
-                Path.add(0, current);
-            }
-            for (Vertex v : Path) {
-                System.out.print(v.Name);
-
-                if (v != zink)
-                    System.out.print("->");
-            }
-        }
-
-
+        g = TestGraph.MakeBigGraph();
+        source = g.getvertex("10");
+        zink = g.getvertex("6");
+        results = g.GetShortestDistance(source, zink);
+        System.out.println("\nHer printes den korteste rute, for den store graf ");
+        prettyPrint(source, zink, results);
     }
+
+
+
     public Graph MakeSmallGraph()
     {
         Graph mygraph= new Graph();
